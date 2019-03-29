@@ -1,3 +1,5 @@
+import org.gradle.internal.jvm.Jvm
+
 plugins {
     id 'java'
     id 'idea'
@@ -29,7 +31,7 @@ dependencies {
     testCompile 'com.google.testing.compile:compile-testing:0.15'
     testCompile 'com.google.truth:truth:0.42'
     testCompile 'junit:junit:4.12'
-    testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+    testCompile files(Jvm.current().getToolsJar())
 }
 
 idea {
@@ -38,13 +40,13 @@ idea {
     }
 }
 
+jar.enabled = false
+build.dependsOn shadowJar
+
 shadowJar {
-    /*relocate 'com.google', 'shadow.com.google'
-    relocate 'io.undertow', 'shadow.io.undertow'
-    relocate 'org.checkerframework', 'shadow.org.checkerframework'
-    relocate 'org.jboss', 'shadow.org.jboss'
-    relocate 'org.openjdk', 'shadow.org.openjdk'
-    relocate 'org.xnio', 'shadow.org.xnio'*/
+    minimize()
+
+    relocate 'com.google', 'shadow.com.google'
 }
 
 
