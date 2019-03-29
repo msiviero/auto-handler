@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'net.ltgt.apt' version '0.10'
+    id 'com.github.johnrengelman.shadow' version '5.0.0'
+}
+
+group 'org.siviero'
+version '0.0.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.auto.service:auto-service:1.0-rc4'
+    compile 'com.google.auto.value:auto-value-annotations:1.6.2'
+    compile 'com.google.googlejavaformat:google-java-format:1.6'
+    compile 'com.google.guava:guava:27.0.1-jre'
+    compile 'com.squareup:javapoet:1.11.1'
+    compile 'io.undertow:undertow-core:2.0.19.Final'
+    compile 'javax.inject:javax.inject:1'
+
+    annotationProcessor 'com.google.auto.value:auto-value:1.6.2'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
+
+    testCompile 'com.google.testing.compile:compile-testing:0.15'
+    testCompile 'com.google.truth:truth:0.42'
+    testCompile 'junit:junit:4.12'
+    testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+}
+
+idea {
+    module {
+        generatedSourceDirs += file('generated/sources/annotationProcessor/java/main')
+    }
+}
+
+shadowJar {
+    /*relocate 'com.google', 'shadow.com.google'
+    relocate 'io.undertow', 'shadow.io.undertow'
+    relocate 'org.checkerframework', 'shadow.org.checkerframework'
+    relocate 'org.jboss', 'shadow.org.jboss'
+    relocate 'org.openjdk', 'shadow.org.openjdk'
+    relocate 'org.xnio', 'shadow.org.xnio'*/
+}
+
+
