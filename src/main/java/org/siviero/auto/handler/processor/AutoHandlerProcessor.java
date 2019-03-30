@@ -108,6 +108,8 @@ public class AutoHandlerProcessor extends AbstractProcessor {
   public Set<String> getSupportedAnnotationTypes() {
     return ImmutableSet.<String>builder()
       .add(AutoHandler.class.getCanonicalName())
+      .add(Endpoint.class.getCanonicalName())
+      .add(Route.class.getCanonicalName())
       .build();
   }
 
