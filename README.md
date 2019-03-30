@@ -15,7 +15,6 @@ annotationProcessor files('./auto-handler-0.0.1-all.jar')
 Create an endpoint:
 
 ```java
-@AutoHandler
 @Singleton
 @Endpoint("/api/v1")
 public final class MainEndpoint {
