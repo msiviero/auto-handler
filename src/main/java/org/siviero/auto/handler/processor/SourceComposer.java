@@ -13,6 +13,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import javax.inject.Inject;
 import javax.lang.model.element.Modifier;
+import org.siviero.auto.handler.HttpExchange;
 
 class SourceComposer {
 
@@ -47,7 +48,14 @@ class SourceComposer {
           .addAnnotation(Override.class)
           .addModifiers(Modifier.PUBLIC)
           .addParameter(HttpServerExchange.class, "exchange")
-          .addStatement(CodeBlock.of("$L.$L($L)", endpointName, endpoint.handlerName(), "exchange"))
+          .addStatement(CodeBlock
+            .of("$T $L = $T.create($L)",
+              HttpExchange.class,
+              "requestExchange",
+              HttpExchange.class,
+              "exchange"))
+          .addStatement(
+            CodeBlock.of("$L.$L($L)", endpointName, endpoint.handlerName(), "requestExchange"))
           .build())
         .build();
 

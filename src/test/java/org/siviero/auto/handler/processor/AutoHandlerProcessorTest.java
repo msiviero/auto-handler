@@ -33,13 +33,13 @@ public class AutoHandlerProcessorTest {
       "import org.siviero.auto.handler.annotation.Endpoint;",
       "import org.siviero.auto.handler.annotation.Route;",
       "import org.siviero.auto.handler.HttpMethod;",
-      "import io.undertow.server.HttpServerExchange;",
+      "import org.siviero.auto.handler.HttpExchange;",
       "",
       "@Endpoint(\"/users\")",
       "public class UsersApi {",
       "",
       "  @Route(method=HttpMethod.GET, path=\"/all\")",
-      "  public void list(HttpServerExchange exchange) { }",
+      "  public void list(HttpExchange exchange) { }",
       "}"
     );
 
@@ -52,6 +52,7 @@ public class AutoHandlerProcessorTest {
       "import io.undertow.server.HttpHandler;",
       "import io.undertow.server.HttpServerExchange;",
       "import javax.inject.Inject;",
+      "import org.siviero.auto.handler.HttpExchange;",
       "",
       "class AutoHandlerRoot {",
       "",
@@ -69,7 +70,8 @@ public class AutoHandlerProcessorTest {
       "      .add(\"GET\", \"/users/all\", new HttpHandler() {",
       "         @Override",
       "         public void handleRequest(HttpServerExchange exchange) {",
-      "           usersApi.list(exchange);",
+      "           HttpExchange requestExchange = HttpExchange.create(exchange);",
+      "           usersApi.list(requestExchange);",
       "         }",
       "      })",
       "    ;",
