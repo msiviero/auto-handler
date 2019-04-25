@@ -85,8 +85,6 @@ public class AutoHandlerProcessorTest {
       .processedWith(new AutoHandlerProcessor())
       .compilesWithoutError()
       .and()
-      .generatesSources(
-        generatedRoot
-      );
+      .generatesSources(generatedRoot);
   }
 }

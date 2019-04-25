@@ -103,7 +103,6 @@ public class AutoHandlerProcessor extends AbstractProcessor {
     SourceComposer.generateSource(handlerDescriptor.build()).writeTo(filer);
   }
 
-
   @Override
   public Set<String> getSupportedAnnotationTypes() {
     return ImmutableSet.<String>builder()

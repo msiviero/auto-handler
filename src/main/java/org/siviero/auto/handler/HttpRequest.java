@@ -3,6 +3,7 @@ package org.siviero.auto.handler;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.undertow.server.HttpServerExchange;
+import io.undertow.util.PathTemplateMatch;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
@@ -14,6 +15,14 @@ public class HttpRequest {
 
   HttpRequest(final HttpServerExchange exchange) {
     this.exchange = exchange;
+  }
+
+  public String pathParam(final String name) {
+    return exchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY).getParameters().get(name);
+  }
+
+  public String queryParam(final String name) {
+    return exchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY).getParameters().get(name);
   }
 
   public CompletableFuture<byte[]> body() {
@@ -32,15 +41,13 @@ public class HttpRequest {
 
     CompletableFuture<T> completableFuture = new CompletableFuture<>();
 
-    TypeReference<T> typeRef = new TypeReference<T>() {
-    };
-
     exchange
       .getRequestReceiver()
       .receiveFullBytes(
         (HttpServerExchange exchange, byte[] bytes) -> {
           try {
-            completableFuture.complete(mapper.readValue(bytes, typeRef));
+            completableFuture.complete(mapper.readValue(bytes, new TypeReference<T>() {
+            }));
           } catch (IOException e) {
             throw new RuntimeException(e);
           }
